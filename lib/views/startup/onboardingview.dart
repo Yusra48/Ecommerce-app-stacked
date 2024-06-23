@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:ecommerce_app/views/screens/loginview.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -111,9 +112,10 @@ class OnboardingPageItem extends StatelessWidget {
           SizedBox(height: 48.0),
           Text(
             pageModel.title,
-            style: TextStyle(
-              fontSize: 24,
+            style: GoogleFonts.lato(
+              fontSize: 25,
               fontWeight: FontWeight.bold,
+              letterSpacing: 1.5,
               color: Colors.black,
             ),
           ),
@@ -121,9 +123,11 @@ class OnboardingPageItem extends StatelessWidget {
           Text(
             pageModel.description,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[700],
+            style: GoogleFonts.lato(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.5,
+              color: Colors.grey,
             ),
           ),
         ],
