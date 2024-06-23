@@ -49,10 +49,12 @@ class ShoppingPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              CircleAvatar(
+              Center(
+            child:  CircleAvatar(
                 radius: 50,
                 backgroundImage: NetworkImage(
                     'https://cdn.pixabay.com/photo/2023/01/27/04/53/muslim-7747745_640.png'),
+              ),
               ),
               SizedBox(height: 16.0),
               Padding(
