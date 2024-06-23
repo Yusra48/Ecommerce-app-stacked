@@ -1,12 +1,17 @@
-import 'package:ecommerce_app/Models/WishlistModel.dart';
+import 'package:ecommerce_app/views/home/navigations/ShoppingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-
-import 'package:ecommerce_app/common/ConfirmCheckoutPage.dart';
+import 'package:ecommerce_app/Models/WishlistModel.dart';
 
 class CheckoutPage extends StatelessWidget {
+  final Map<String, dynamic> item;
+
+  CheckoutPage({required this.item});
+
   @override
   Widget build(BuildContext context) {
+    double totalConvenienceFee = 150.0;
+
     return ViewModelBuilder<WishlistViewModel>.reactive(
       viewModelBuilder: () => WishlistViewModel(),
       builder: (context, model, child) => Scaffold(
@@ -70,14 +75,10 @@ class CheckoutPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                Column(
-                  children: model.wishlistItems
-                      .map((item) => buildShoppingListItem(context, item))
-                      .toList(),
-                ),
+                buildShoppingListItem(context, item),
                 SizedBox(height: 20),
                 Text(
-                  'Total Amount: \$${model.totalAmount.toStringAsFixed(2)}',
+                  'Total Amount: \$${item['price']}',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -86,7 +87,7 @@ class CheckoutPage extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Total Convenience Fee: \$${model.totalConvenienceFee.toStringAsFixed(2)}',
+                  'Total Convenience Fee: \$${totalConvenienceFee.toStringAsFixed(2)}',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -102,7 +103,12 @@ class CheckoutPage extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ConfirmCheckoutPage(),
+                          builder: (context) => ShoppingPage(
+                              image: 'image_url_here',
+                              title: 'Product Title',
+                              price: ' Price',
+                              rating: 4.5,
+                              description: 'Product Description'),
                         ),
                       );
                     },
@@ -114,6 +120,8 @@ class CheckoutPage extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                     style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),),
                       backgroundColor: Colors.pink,
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       textStyle: TextStyle(fontSize: 18),
@@ -130,8 +138,6 @@ class CheckoutPage extends StatelessWidget {
 
   Widget buildShoppingListItem(
       BuildContext context, Map<String, dynamic> item) {
-    double price = double.tryParse(item['price'].toString()) ?? 0.0;
-
     return Card(
       color: Colors.white,
       margin: EdgeInsets.symmetric(vertical: 8.0),
@@ -170,7 +176,7 @@ class CheckoutPage extends StatelessWidget {
                   ),
                   SizedBox(height: 5),
                   Text(
-                    '\$${price.toStringAsFixed(2)}',
+                    '\$${item['price']}',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
