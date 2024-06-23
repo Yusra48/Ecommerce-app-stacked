@@ -1,89 +1,180 @@
-import 'package:flutter/material.dart';
 import 'package:ecommerce_app/common/PaymentSuccessfulpage.dart';
+import 'package:flutter/material.dart';
 
-class ConfirmCheckoutPage extends StatelessWidget {
-  final String? orderAmount;
-  final String? convenienceFee;
+class ConfirmationCheckoutPage extends StatelessWidget {
+  final String amount;
 
-  ConfirmCheckoutPage({
-    this.orderAmount,
-    this.convenienceFee,
-  });
+  const ConfirmationCheckoutPage({super.key, required this.amount});
 
   @override
   Widget build(BuildContext context) {
-    double orderAmountValue = double.tryParse(orderAmount ?? '0.0') ?? 0.0;
-    double convenienceFeeValue =
-        double.tryParse(convenienceFee ?? '0.0') ?? 0.0;
-    double totalAmount = orderAmountValue + convenienceFeeValue;
-
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text(
-          'Confirm Checkout',
+        title: Center(
+            child: Text(
+          'Confirmation',
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 25,
             fontWeight: FontWeight.bold,
             color: Colors.black,
-            letterSpacing: 1,
+            letterSpacing: 1.5,
+          ),
+        )),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.pink.shade100, Colors.white],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 3,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Total',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      '\$$amount',
+                      style: const TextStyle(
+                        fontSize: 34,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Divider(),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Total Transfer',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          '\$$amount',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text(
+                          'Transfer Charge',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          '\$1.00',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Total Fees',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '\$${double.parse(amount) + 1.00}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                    ),
+                    const SizedBox(width: 10),
+                    const Expanded(
+                      child: Text(
+                        'Your payment will be confirmed after we get your authorization.',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 30),
+              SizedBox(
+                height: kToolbarHeight,
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PaymentSuccessPage()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pink,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    'Confirm and Transfer',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
       backgroundColor: Colors.grey[50],
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              title: Text('Order'),
-              trailing: Text('₹ ${orderAmountValue.toStringAsFixed(2)}'),
-            ),
-            ListTile(
-              title: Text('Shipping'),
-              trailing: Text('₹ ${convenienceFeeValue.toStringAsFixed(2)}'),
-            ),
-            Divider(),
-            ListTile(
-              title: Text('Total'),
-              trailing: Text('₹ ${totalAmount.toStringAsFixed(2)}'),
-            ),
-            Spacer(),
-            SizedBox(
-              height: kToolbarHeight,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PaymentSuccessPage(),
-                    ),
-                  );
-                },
-                child: Text(
-                  'Confirm Checkout',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pink,
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  textStyle: TextStyle(fontSize: 18),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }
