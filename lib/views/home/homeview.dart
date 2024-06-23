@@ -194,8 +194,15 @@ class HomeView extends StatelessWidget {
               );
               break;
             case 2:
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ShoppingPage()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ShoppingPage(
+                          image: 'image_url_here',
+                          title: 'Product Title',
+                          price: ' Price',
+                          rating: 4.5,
+                          description: 'Product Description')));
               break;
             case 3:
               Navigator.push(context,
