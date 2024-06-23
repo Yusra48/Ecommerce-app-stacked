@@ -1,11 +1,9 @@
 import 'package:ecommerce_app/Models/WishlistModel.dart';
-
 import 'package:ecommerce_app/common/CheckoutPage.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class WishlistPage extends StatelessWidget {
-  WishlistPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,20 +13,56 @@ class WishlistPage extends StatelessWidget {
       body: ViewModelBuilder<WishlistViewModel>.reactive(
         viewModelBuilder: () => WishlistViewModel(),
         builder: (context, model, child) => ListView.builder(
-          itemCount: model.wishlistItems.length,
+          itemCount: model.wishlist.length,
           itemBuilder: (context, index) {
-            final item = model.wishlistItems[index];
-            return ListTile(
-              title: Text(item['title']),
-              subtitle: Text('Price: ${item['price']}'),
+            final item = model.wishlist[index];
+            return GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CheckoutPage(),
+                    builder: (context) => CheckoutPage(item: item),
                   ),
                 );
               },
+              child: Container(
+                margin: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: ListTile(
+                  leading: Image.network(
+                    item['image'],
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
+                  title: Text(item['title'] ?? ''),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(item['description'] ?? ''),
+                      Text('Price: ${item['price'] ?? ''}'),
+                    ],
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      model.removeFromWishlist(index);
+                    },
+                  ),
+                ),
+              ),
             );
           },
         ),
