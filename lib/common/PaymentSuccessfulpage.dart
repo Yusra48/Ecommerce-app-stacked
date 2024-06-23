@@ -67,6 +67,8 @@ class PaymentSuccessPage extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),),
                 backgroundColor: Colors.pink,
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 textStyle: TextStyle(fontSize: 18),
