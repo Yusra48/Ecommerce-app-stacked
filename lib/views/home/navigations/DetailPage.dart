@@ -1,6 +1,5 @@
 import 'package:ecommerce_app/Models/WishlistModel.dart';
 import 'package:ecommerce_app/common/CheckoutPage.dart';
-
 import 'package:ecommerce_app/views/home/navigations/WishlistPage.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -167,6 +166,11 @@ class DetailPage extends StatelessWidget {
                                 'description': description,
                                 'price': price,
                               });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Added to Wishlist'),
+                                ),
+                              );
                             },
                             child: Text('Add to Wishlist'),
                           ),
@@ -183,7 +187,15 @@ class DetailPage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CheckoutPage(),
+                                  builder: (context) => CheckoutPage(
+                                    item: {
+                                      'image': image,
+                                      'title': title,
+                                      'rating': rating,
+                                      'description': description,
+                                      'price': price,
+                                    },
+                                  ),
                                 ),
                               );
                             },
